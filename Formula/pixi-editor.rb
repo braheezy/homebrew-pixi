@@ -1,4 +1,4 @@
-class Pixi < Formula
+class PixiEditor < Formula
   desc "Cross-platform pixel art and animation editor written in Zig"
   homepage "https://github.com/foxnne/pixi"
   url "https://github.com/braheezy/pixi", branch: "homebrew", using: :git

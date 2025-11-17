@@ -20,11 +20,11 @@ class PixiEditor < Formula
     zig_out = buildpath/"zig-out"
     system "zig", "build", *args, *std_zig_args(prefix: zig_out)
 
-    bin.install Dir[zig_out/"bin/Pixi"]
-    assets_dir = bin/"assets"
-    assets_dir.rmtree if assets_dir.exist?
-    if (zig_out/"bin/assets").exist?
-      assets_dir.install Dir[(zig_out/"bin/assets").to_s + "/*"]
+    bin.install zig_out/"bin/Pixi"
+
+    assets_source = zig_out/"bin/assets"
+    if assets_source.directory?
+      (bin/"assets").install Dir[assets_source/"*"]
     end
 
     prefix.install "LICENSE", "readme.md"

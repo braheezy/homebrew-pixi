@@ -20,12 +20,13 @@ class PixiEditor < Formula
     zig_out = buildpath/"zig-out"
     system "zig", "build", *args, *std_zig_args(prefix: zig_out)
 
-    artifacts = Dir[zig_out/"bin/*"]
-    raise "No build artifacts in #{zig_out}/bin" if artifacts.empty?
-
+    bin.install Dir[zig_out/"bin/Pixi"]
     assets_dir = bin/"assets"
     assets_dir.rmtree if assets_dir.exist?
-    ohai "Installing artifacts: #{artifacts.map { |p| File.basename(p) }.join(", ")}"
-    bin.install artifacts
+    if (zig_out/"bin/assets").exist?
+      assets_dir.install Dir[(zig_out/"bin/assets").to_s + "/*"]
+    end
+
+    prefix.install "LICENSE", "readme.md"
   end
 end

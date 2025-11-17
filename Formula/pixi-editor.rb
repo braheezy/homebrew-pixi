@@ -17,15 +17,7 @@ class PixiEditor < Formula
     args = []
     args << "-Dcpu=#{cpu}" if build.bottle?
 
-    zig_out = buildpath/"zig-out"
-    system "zig", "build", *args, *std_zig_args(prefix: zig_out)
-
-    bin.install zig_out/"bin/Pixi"
-
-    assets_source = zig_out/"bin/assets"
-    if assets_source.directory?
-      (bin/"assets").install Dir[assets_source/"*"]
-    end
+    system "zig", "build", *args, "--prefix", prefix, "-Doptimize=ReleaseFast", "--summary", "all"
 
     prefix.install "LICENSE", "readme.md"
   end
